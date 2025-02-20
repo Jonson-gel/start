@@ -9,20 +9,117 @@
     <style>
         body, html { margin: 0; padding: 0; height: 100%; }
         #map { height: 100vh; width: 100vw; }
+
+        /* 搜索框样式 */
+        .search-bar {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            background: white;
+            border-radius: 5px;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        .search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 8px;
+        }
+        .search-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* 定位按钮 */
+        .locate-control {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .locate-btn {
+            background: white;
+            padding: 10px;
+            border-radius: 50%;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
+    <!-- 地图容器 -->
     <div id="map"></div>
+
+    <!-- 搜索框 -->
+    <div class="search-bar">
+        <input type="text" id="search-input" class="search-input" placeholder="输入地址">
+        <button class="search-btn" onclick="searchLocation()">Search</button>
+    </div>
+
+    <!-- 定位按钮 -->
+    <div class="locate-control">
+        <button class="locate-btn" onclick="relocate()">Relocate</button>
+    </div>
+
     <script>
+        // 初始化地图
         var map = L.map('map').setView([53.349805, -6.26031], 12);
 
+        // 加载 OSM 瓦片
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        L.marker([53.349805, -6.26031]).addTo(map)
+        // 添加默认标记
+        var marker = L.marker([53.349805, -6.26031]).addTo(map)
             .bindPopup('Dublin, Ireland')
             .openPopup();
+
+        // 定位按钮功能
+        function relocate() {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    map.setView([latitude, longitude], 15);
+                    marker.setLatLng([latitude, longitude])
+                        .bindPopup("current location")
+                        .openPopup();
+                },
+                () => alert("Can't relocate to current location"),
+                { enableHighAccuracy: true }
+            );
+        }
+
+        // 搜索功能（调用 Nominatim API）
+        function searchLocation() {
+            var query = document.getElementById("search-input").value;
+            if (!query) return alert("Enter the address!");
+
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.length === 0) {
+                        alert("Address can not be found!");
+                        return;
+                    }
+                    const { lat, lon } = data[0];
+                    map.setView([lat, lon], 15);
+                    marker.setLatLng([lat, lon])
+                        .bindPopup(query)
+                        .openPopup();
+                })
+                .catch(() => alert("error"));
+        }
     </script>
 </body>
 </html>
