@@ -3,27 +3,31 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MAP</title>
+    <title>ENELOOP</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <style>
         body, html { margin: 0; padding: 0; height: 100%; }
         #map { height: 100vh; width: 100vw; }
 
-        /* 搜索框样式 */
-        .search-bar {
+        /* 搜索框 */
+        .search-container {
             position: absolute;
             top: 10px;
             left: 50%;
             transform: translateX(-50%);
-            width: 60%;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .search-bar {
+            width: 60vw;
             background: white;
             border-radius: 5px;
             padding: 5px;
             display: flex;
             align-items: center;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
         }
         .search-input {
             flex: 1;
@@ -40,50 +44,75 @@
             border-radius: 5px;
         }
 
-        /* 定位按钮 */
-        .locate-control {
+        /* 个人中心按钮 */
+        .profile-btn {
+            width: 45px;
+            height: 45px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+
+        /* 底部按钮区域（均匀分布） */
+        .bottom-controls {
             position: absolute;
             bottom: 20px;
-            right: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            max-width: 400px;
             z-index: 1000;
         }
 
-        /* Wallet & Exception 按钮 */
-        .wallet-btn { bottom: 100px; left: 20px; }
-        .exception-btn { bottom: 40px; left: 20px; }
-
-        /* Scan 按钮 */
-        .scan-btn { bottom: 20px; left: 50%; transform: translateX(-50%); }
+        /* 按钮公共样式 */
+        .button {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <!-- 地图容器 -->
     <div id="map"></div>
 
-    <!-- 搜索框 -->
-    <div class="search-bar">
-        <input type="text" id="search-input" class="search-input" placeholder="Search">
-        <button class="search-btn" onclick="searchLocation()">Search</button>
+    <!-- 搜索框 + 个人中心 -->
+    <div class="search-container">
+        <div class="search-bar">
+            <input type="text" id="search-input" class="search-input" placeholder="Search">
+            <button class="search-btn" onclick="searchLocation()">Search</button>
+        </div>
+        <div class="profile-btn" onclick="openProfile()">
+            <img src="unlog.jpg" width="30px">
+        </div>
     </div>
 
-    <!-- Wallet 按钮 -->
-    <div class="button wallet-btn" onclick="openWallet()">
-        <img src="wallet.png" width="30px">
-    </div>
-
-    <!-- Exception 按钮 -->
-    <div class="button exception-btn" onclick="exception()">
-        <img src="exception.png" width="30px">
-    </div>
-
-    <!-- Scan 按钮 -->
-    <div class="button scan-btn" onclick="scanQR()">
-        <img src="scan.png" width="40px">
-    </div>
-
-    <!-- 定位按钮 -->
-    <div class="locate-control">
-        <img src="locate.png" alt="relocate" onclick="relocate()">
+    <div class="bottom-controls">
+        <div class="button locate-btn" onclick="relocate()">
+            <img src="locate.png" width="30px">
+        </div>
+        <div class="button scan-btn" onclick="scanQR()">
+            <img src="scan.jpg" width="40px">
+        </div>
+        <div class="button wallet-btn" onclick="openWallet()">
+            <img src="wallet.png" width="30px">
+        </div>
+        <div class="button exception-btn" onclick="exception()">
+            <img src="exception.jpg" width="30px">
+        </div>
     </div>
 
     <script>
