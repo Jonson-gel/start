@@ -47,6 +47,13 @@
             right: 20px;
             z-index: 1000;
         }
+
+        /* Wallet & Exception 按钮 */
+        .wallet-btn { bottom: 100px; left: 20px; }
+        .exception-btn { bottom: 40px; left: 20px; }
+
+        /* Scan 按钮 */
+        .scan-btn { bottom: 20px; left: 50%; transform: translateX(-50%); }
     </style>
 </head>
 <body>
@@ -57,6 +64,21 @@
     <div class="search-bar">
         <input type="text" id="search-input" class="search-input" placeholder="Search">
         <button class="search-btn" onclick="searchLocation()">Search</button>
+    </div>
+
+    <!-- Wallet 按钮 -->
+    <div class="button wallet-btn" onclick="openWallet()">
+        <img src="wallet.png" width="30px">
+    </div>
+
+    <!-- Exception 按钮 -->
+    <div class="button exception-btn" onclick="exception()">
+        <img src="exception.png" width="30px">
+    </div>
+
+    <!-- Scan 按钮 -->
+    <div class="button scan-btn" onclick="scanQR()">
+        <img src="scan.png" width="40px">
     </div>
 
     <!-- 定位按钮 -->
@@ -113,6 +135,20 @@
                 })
                 .catch(() => alert("error"));
         }
+
+        // 发送消息给微信小程序
+        function postToMiniProgram(action) {
+            if (window.wx && wx.miniProgram) {
+                wx.miniProgram.postMessage({ data: { action } });
+            } else {
+                alert("不在微信小程序环境");
+            }
+        }
+
+        // 触发小程序功能
+        function openWallet() { postToMiniProgram("openWallet"); }
+        function exception() { postToMiniProgram("exception"); }
+        function scanQR() { postToMiniProgram("scanQR"); }
     </script>
 </body>
 </html>
