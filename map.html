@@ -179,26 +179,30 @@
                 .catch(() => alert("error"));
         }
 
-        // 发送消息给微信小程序
-        function postToMiniProgram(action) {
-            if (window.wx && wx.miniProgram) {
-                wx.miniProgram.getEnv((res) => {
-                    if (res.miniprogram) {
-                        wx.miniProgram.postMessage({ data: { action } });
-                    } else {
-                        alert("请在小程序环境中使用该功能");
-                    }
-                });
+        function sendToMiniProgram(actionType) {
+            if (window.wx && window.wx.miniProgram) {
+                window.wx.miniProgram.postMessage({ action: actionType });
             } else {
                 alert("当前环境不支持小程序功能");
             }
         }
 
-        // 触发小程序功能
-        function openWallet() { postToMiniProgram("openWallet"); }
-        function exception() { postToMiniProgram("exception"); }
-        function scanQR() { postToMiniProgram("scanQR"); }
-        function openProfile() { postToMiniProgram("openProfile"); }
+        // 按钮点击事件调用
+        document.getElementById("wallet-btn").onclick = function () {
+            sendToMiniProgram("openWallet");
+        };
+
+        document.getElementById("exception-btn").onclick = function () {
+            sendToMiniProgram("exception");
+        };
+
+        document.getElementById("scan-btn").onclick = function () {
+            sendToMiniProgram("scanQR");
+        };
+
+        document.getElementById("profile-btn").onclick = function () {
+            sendToMiniProgram("openProfile");
+        };
     </script>
 </body>
 
