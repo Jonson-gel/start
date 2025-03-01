@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,8 +8,17 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; }
-        #map { height: 100vh; width: 100vw; }
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        #map {
+            height: 100vh;
+            width: 100vw;
+        }
 
         /* 搜索框 */
         .search-container {
@@ -20,6 +30,7 @@
             align-items: center;
             z-index: 1000;
         }
+
         .search-bar {
             width: 60vw;
             background: white;
@@ -29,12 +40,14 @@
             align-items: center;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
         }
+
         .search-input {
             flex: 1;
             border: none;
             outline: none;
             padding: 8px;
         }
+
         .search-btn {
             background: #007bff;
             color: white;
@@ -85,6 +98,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- 地图容器 -->
     <div id="map"></div>
@@ -168,9 +182,15 @@
         // 发送消息给微信小程序
         function postToMiniProgram(action) {
             if (window.wx && wx.miniProgram) {
-                wx.miniProgram.postMessage({ data: { action } });
+                wx.miniProgram.getEnv((res) => {
+                    if (res.miniprogram) {
+                        wx.miniProgram.postMessage({ data: { action } });
+                    } else {
+                        alert("请在小程序环境中使用该功能");
+                    }
+                });
             } else {
-                alert("不在微信小程序环境");
+                alert("当前环境不支持小程序功能");
             }
         }
 
@@ -178,6 +198,8 @@
         function openWallet() { postToMiniProgram("openWallet"); }
         function exception() { postToMiniProgram("exception"); }
         function scanQR() { postToMiniProgram("scanQR"); }
+        function openProfile() { postToMiniProgram("openProfile"); }
     </script>
 </body>
+
 </html>
