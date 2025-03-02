@@ -203,6 +203,9 @@
         document.getElementById("profile-btn").onclick = function () {
             sendToMiniProgram("openProfile");
         };
+
+        console.log("当前 window.wx 是否存在：", window.wx);
+        console.log("当前 window.wx.miniProgram 是否存在：", window.wx?.miniProgram);
     </script>
 </body>
 
