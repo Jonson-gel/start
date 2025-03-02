@@ -109,22 +109,22 @@
             <input type="text" id="search-input" class="search-input" placeholder="Search">
             <button class="search-btn" onclick="searchLocation()">Search</button>
         </div>
-        <div class="profile-btn" onclick="openProfile()">
+        <div id="profile-btn" class="profile-btn" onclick="openProfile()">
             <img src="unlog.jpg" width="30px">
         </div>
     </div>
 
     <div class="bottom-controls">
-        <div class="button locate-btn" onclick="relocate()">
+        <div id="locate-btn" class="button locate-btn" onclick="relocate()">
             <img src="locate.png" width="30px">
         </div>
-        <div class="button scan-btn" onclick="scanQR()">
+        <div id="scan-btn" class="button scan-btn" onclick="scanQR()">
             <img src="scan.jpg" width="40px">
         </div>
-        <div class="button wallet-btn" onclick="openWallet()">
+        <div id="wallet-btn" class="button wallet-btn" onclick="openWallet()">
             <img src="wallet.png" width="30px">
         </div>
-        <div class="button exception-btn" onclick="exception()">
+        <div id="exception-btn" class="button exception-btn" onclick="exception()">
             <img src="exception.jpg" width="30px">
         </div>
     </div>
@@ -188,9 +188,12 @@
         }
 
         // 绑定按钮点击事件
-        document.getElementById("wallet-btn").onclick = function () {
-            sendToMiniProgram("openWallet");
-        };
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("wallet-btn").onclick = function () {
+                sendToMiniProgram("openWallet");
+            };
+        });
+
 
         document.getElementById("exception-btn").onclick = function () {
             sendToMiniProgram("exception");
