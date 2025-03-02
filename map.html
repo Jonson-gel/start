@@ -188,12 +188,9 @@
         }
 
         // 绑定按钮点击事件
-        document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("wallet-btn").onclick = function () {
-                sendToMiniProgram("openWallet");
-            };
-        });
-
+        document.getElementById("wallet-btn").onclick = function () {
+            sendToMiniProgram("openWallet");
+        };
 
         document.getElementById("exception-btn").onclick = function () {
             sendToMiniProgram("exception");
@@ -206,9 +203,6 @@
         document.getElementById("profile-btn").onclick = function () {
             sendToMiniProgram("openProfile");
         };
-
-        console.log("当前 window.wx 是否存在：", window.wx);
-        console.log("当前 window.wx.miniProgram 是否存在：", window.wx?.miniProgram);
     </script>
 </body>
 
