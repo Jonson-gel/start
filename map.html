@@ -179,6 +179,14 @@
                 .catch(() => alert("error"));
         }
 
+        document.addEventListener("WeixinJSBridgeReady", function () {
+            console.log("WeixinJSBridge is ready!");
+            window.wx.miniProgram.getEnv(function (res) {
+                console.log("小程序环境检测:", res.miniprogram);
+            });
+        });
+
+
         function sendToMiniProgram(actionType) {
             if (window.wx && window.wx.miniProgram) {
                 window.wx.miniProgram.postMessage([{ action: actionType }]);
