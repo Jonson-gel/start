@@ -191,7 +191,25 @@
             if (window.wx && window.wx.miniProgram) {
                 window.wx.miniProgram.getEnv(function (res) {
                     if (res.miniprogram) {
-                        window.wx.miniProgram.postMessage([{ action: actionType }]);
+                        let url = "";
+                        switch (actionType) {
+                            case "openWallet":
+                                url = "/pages/wallet/wallet"; // 你的钱包页面路径
+                                break;
+                            case "exception":
+                                url = "/pages/exception/exception"; // 你的异常页面路径
+                                break;
+                            case "scanQR":
+                                url = "/pages/scan/index"; // 你的扫码页面路径
+                                break;
+                            case "openProfile":
+                                url = "/pages/login/login"; // 你的个人中心路径
+                                break;
+                            default:
+                                alert("未知操作");
+                                return;
+                        }
+                        window.wx.miniProgram.navigateTo({ url });
                     } else {
                         alert("请在小程序内打开");
                     }
@@ -200,6 +218,7 @@
                 alert("当前环境不支持小程序功能");
             }
         }
+
 
 
         // 绑定按钮点击事件
