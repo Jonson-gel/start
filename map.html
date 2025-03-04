@@ -189,11 +189,18 @@
 
         function sendToMiniProgram(actionType) {
             if (window.wx && window.wx.miniProgram) {
-                window.wx.miniProgram.postMessage([{ action: actionType }]);
+                window.wx.miniProgram.getEnv(function (res) {
+                    if (res.miniprogram) {
+                        window.wx.miniProgram.postMessage([{ action: actionType }]);
+                    } else {
+                        alert("请在小程序内打开");
+                    }
+                });
             } else {
                 alert("当前环境不支持小程序功能");
             }
         }
+
 
         // 绑定按钮点击事件
         document.getElementById("wallet-btn").onclick = function () {
