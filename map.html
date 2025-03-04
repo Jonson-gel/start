@@ -181,7 +181,7 @@
 
         function sendToMiniProgram(actionType) {
             if (window.wx && window.wx.miniProgram) {
-                window.wx.miniProgram.postMessage({ action: actionType });
+                window.wx.miniProgram.postMessage([{ action: actionType }]);
             } else {
                 alert("当前环境不支持小程序功能");
             }
