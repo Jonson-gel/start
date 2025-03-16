@@ -109,24 +109,12 @@
             <input type="text" id="search-input" class="search-input" placeholder="Search">
             <button class="search-btn" onclick="searchLocation()">Search</button>
         </div>
-        <!-- <div id="profile-btn" class="profile-btn" onclick="openProfile()">
-            <img src="unlog.jpg" width="30px">
-        </div> -->
     </div>
 
     <div class="bottom-controls">
         <div id="locate-btn" class="button locate-btn" onclick="relocate()">
             <img src="locate.png" width="30px">
         </div>
-        <!-- <div id="scan-btn" class="button scan-btn" onclick="scanQR()">
-            <img src="scan.jpg" width="40px">
-        </div>
-        <div id="wallet-btn" class="button wallet-btn" onclick="openWallet()">
-            <img src="wallet.png" width="30px">
-        </div>
-        <div id="exception-btn" class="button exception-btn" onclick="exception()">
-            <img src="exception.jpg" width="30px">
-        </div> -->
     </div>
 
     <script>
@@ -186,57 +174,35 @@
             });
         });
 
+        // 获取站点数据并渲染
+        function loadStations() {
+            fetch("http://localhost:8080/site") // 替换为你的真实API
+                .then(response => response.json())
+                .then(stations => {
+                    stations.forEach(station => {
+                        // 使用充电站图标
+                        var stationIcon = L.icon({
+                            iconUrl: "site.png", // 替换为你的站点图标
+                            iconSize: [32, 32], // 图标大小
+                            iconAnchor: [16, 32], // 锚点
+                            popupAnchor: [0, -32] // 弹出框偏移
+                        });
 
-        function sendToMiniProgram(actionType) {
-            if (window.wx && window.wx.miniProgram) {
-                window.wx.miniProgram.getEnv(function (res) {
-                    if (res.miniprogram) {
-                        let url = "";
-                        switch (actionType) {
-                            case "openWallet":
-                                url = "/pages/wallet/wallet"; // 你的钱包页面路径
-                                break;
-                            case "exception":
-                                url = "/pages/exception/exception"; // 你的异常页面路径
-                                break;
-                            case "scanQR":
-                                url = "/pages/scan/index"; // 你的扫码页面路径
-                                break;
-                            case "openProfile":
-                                url = "/pages/login/login"; // 你的个人中心路径
-                                break;
-                            default:
-                                alert("未知操作");
-                                return;
-                        }
-                        window.wx.miniProgram.navigateTo({ url });
-                    } else {
-                        alert("请在小程序内打开");
-                    }
-                });
-            } else {
-                alert("当前环境不支持小程序功能");
-            }
+                        // 在地图上添加标记
+                        L.marker([station.lat, station.lng], { icon: stationIcon })
+                            .addTo(map)
+                            .bindPopup(`<b>${station.name}</b><br>${station.info}`)
+                            .on("click", function () {
+                                console.log(`Clicked on station: ${station.name}`);
+                            });
+                    });
+                })
+                .catch(error => console.error("Error fetching stations:", error));
         }
 
+        // 在地图加载完成后获取站点数据
+        loadStations();
 
-
-        // 绑定按钮点击事件
-        document.getElementById("wallet-btn").onclick = function () {
-            sendToMiniProgram("openWallet");
-        };
-
-        document.getElementById("exception-btn").onclick = function () {
-            sendToMiniProgram("exception");
-        };
-
-        document.getElementById("scan-btn").onclick = function () {
-            sendToMiniProgram("scanQR");
-        };
-
-        document.getElementById("profile-btn").onclick = function () {
-            sendToMiniProgram("openProfile");
-        };
     </script>
 </body>
 
