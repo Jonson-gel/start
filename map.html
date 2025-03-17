@@ -200,8 +200,11 @@
                             popupAnchor: [0, -32]
                         });
 
+                        const lat = station.latitude / 100;
+                        const lng = station.longitude / 100;
+
                         // 在地图上添加标记
-                        L.marker([station.latitude/100, station.longitude/100], { icon: stationIcon })
+                        L.marker([lat, lng], { icon: stationIcon })
                             .addTo(map)
                             .bindPopup(`<b>${siteName}</b><br>${siteInfo}`)
                             .on("click", function () {
