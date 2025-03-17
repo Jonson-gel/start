@@ -195,13 +195,13 @@
                         // 创建站点图标
                         var stationIcon = L.icon({
                             iconUrl: "site.png",
-                            iconSize: [32, 32],
+                            iconSize: [24, 32],
                             iconAnchor: [16, 32],
                             popupAnchor: [0, -32]
                         });
 
                         // 在地图上添加标记
-                        L.marker([station.latitude, station.longitude], { icon: stationIcon })
+                        L.marker([station.latitude/100, station.longitude/100], { icon: stationIcon })
                             .addTo(map)
                             .bindPopup(`<b>${siteName}</b><br>${siteInfo}`)
                             .on("click", function () {
