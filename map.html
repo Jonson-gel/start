@@ -186,21 +186,26 @@
                 .then(stations => {
                     console.log("Fetched stations:", stations); // Debugging
                     stations.forEach(station => {
-                        if (!station.lat || !station.lng) return; // 过滤无效数据
+                        if (!station.latitude || !station.longitude) return; // 过滤无效数据
 
+                        // 站点名称和信息
+                        let siteName = `Site ${station.siteId}`;
+                        let siteInfo = `Location: ${station.location}<br>Available: ${station.availableReserves}/${station.capacity}`;
+
+                        // 创建站点图标
                         var stationIcon = L.icon({
-                            iconUrl: "station.png",
+                            iconUrl: "site.png",
                             iconSize: [32, 32],
                             iconAnchor: [16, 32],
                             popupAnchor: [0, -32]
                         });
 
                         // 在地图上添加标记
-                        L.marker([station.lat, station.lng], { icon: stationIcon })
+                        L.marker([station.latitude, station.longitude], { icon: stationIcon })
                             .addTo(map)
-                            .bindPopup(`<b>${station.name}</b><br>${station.info}`)
+                            .bindPopup(`<b>${siteName}</b><br>${siteInfo}`)
                             .on("click", function () {
-                                console.log(`Clicked on station: ${station.name}`);
+                                console.log(`Clicked on station: ${siteName}`);
                             });
                     });
                 })
