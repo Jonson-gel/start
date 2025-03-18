@@ -176,7 +176,7 @@
 
         // 加载站点数据
         function loadStations() {
-            fetch("http://192.168.8.111/site") // 确保后端API可访问
+            fetch("http://192.168.8.1/site") // 确保后端API可访问
                 .then(response => {
                     if (!response.ok) {
                         throw new Error("Network response was not ok");
