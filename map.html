@@ -179,9 +179,9 @@
         // 全局变量，用于存储路线
         var routingControl = null;
 
-        // 加载站点数据
+        // 加载站点数据 //https://github.com/Jonson-gel/fp-backend
         function loadStations() {
-            fetch("http://localhost:8080/site")
+            fetch("https://github.com/Jonson-gel/fp-backend")
                 .then(response => response.json())
                 .then(stations => {
                     stations.forEach(station => {
