@@ -179,9 +179,9 @@
         // 全局变量，用于存储路线
         var routingControl = null;
 
-        // 加载站点数据 //https://fp-backend-eh7a.onrender.com
+        // 加载站点数据 //https://fp-backend-eh7a.onrender.com http://localhost:8080/site
         function loadStations() {
-            fetch("http://localhost:8080/site")
+            fetch("https://fp-backend-eh7a.onrender.com")
                 .then(response => response.json())
                 .then(stations => {
                     stations.forEach(station => {
