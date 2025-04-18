@@ -206,6 +206,7 @@
                         <b>${siteName}</b><br>
                         ${siteInfo}<br>
                         <button onclick="showRoute(${lat}, ${lng})" style="margin-top:5px; padding:5px; background:#007bff; color:white; border:none; border-radius:5px; cursor:pointer;">Navigate</button>
+                        <button onclick="turnToTheSite(${station.siteId})" style="margin-top:5px; padding:5px; background:#28a745; color:white; border:none; border-radius:5px; cursor:pointer;">Rent Here</button>
                     `);
                     });
                 })
@@ -235,6 +236,14 @@
                 () => alert("Failed to get current location!"),
                 { enableHighAccuracy: true }
             );
+        }
+
+        // 跳转到租赁页面方法
+        function turnToTheSite(siteId) {
+            // 使用微信小程序提供的 API 进行页面跳转
+            wx.miniProgram.navigateTo({
+                url: `/pages/rent/rent?siteId=${siteId}`
+            });
         }
 
         // 确保地图加载后调用
