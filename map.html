@@ -181,7 +181,7 @@
 
         // 加载站点数据 //https://fp-backend-eh7a.onrender.com http://localhost:8080
         function loadStations() {
-            fetch("http://localhost:8080/site")
+            fetch("https://fp-backend-eh7a.onrender.com/site")
                 .then(response => response.json())
                 .then(stations => {
                     stations.forEach(station => {
