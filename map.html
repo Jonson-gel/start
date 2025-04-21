@@ -206,7 +206,7 @@
                         <b>${siteName}</b><br>
                         ${siteInfo}<br>
                         <button onclick="showRoute(${lat}, ${lng})" style="margin-top:5px; padding:5px; background:#007bff; color:white; border:none; border-radius:5px; cursor:pointer;">Navigate</button>
-                        <button onclick="turnToTheSite(${station.siteId})" style="margin-top:5px; padding:5px; background:#28a745; color:white; border:none; border-radius:5px; cursor:pointer;">Rent Here</button>
+                        <button onclick="postToMiniProgram(${station.siteId})" style="margin-top:5px; padding:5px; background:#28a745; color:white; border:none; border-radius:5px; cursor:pointer;">Rent Here</button>
                     `);
                     });
                 })
@@ -246,6 +246,11 @@
                 url: `/pages/rent/rent?siteId=${siteId}`
             });
             console.log("跳转成功!");
+        }
+
+        function postToMiniProgram(siteId) {
+            // 向小程序发送消息
+            window.parent.postMessage({ siteId }, '*');
         }
 
         // 确保地图加载后调用
