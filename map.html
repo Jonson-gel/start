@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
     <style>
         body,
         html {
@@ -206,7 +207,7 @@
                         <b>${siteName}</b><br>
                         ${siteInfo}<br>
                         <button onclick="showRoute(${lat}, ${lng})" style="margin-top:5px; padding:5px; background:#007bff; color:white; border:none; border-radius:5px; cursor:pointer;">Navigate</button>
-                        <button onclick="postToMiniProgram(${station.siteId})" style="margin-top:5px; padding:5px; background:#28a745; color:white; border:none; border-radius:5px; cursor:pointer;">Rent Here</button>
+                        <button onclick="turnToTheSite(${station.siteId})" style="margin-top:5px; padding:5px; background:#28a745; color:white; border:none; border-radius:5px; cursor:pointer;">Rent Here</button>
                     `);
                     });
                 })
