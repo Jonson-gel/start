@@ -240,6 +240,7 @@
 
         // 跳转到租赁页面方法
         function turnToTheSite(siteId) {
+            alert("即将跳转");
             // 使用微信小程序提供的 API 进行页面跳转
             wx.miniProgram.navigateTo({
                 url: `/pages/rent/rent?siteId=${siteId}`
