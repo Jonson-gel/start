@@ -58,6 +58,7 @@
             padding: 10px 12px;
             cursor: pointer;
             border-radius: 5px;
+            flex: 0 0 auto;
         }
 
         /* 个人中心按钮 */
@@ -98,6 +99,17 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
+        }
+
+        /* 调整路径详情位置 */
+        .leaflet-routing-container {
+            position: absolute;
+            bottom: calc(50% + 50px);
+            left: 0;
+            width: 100%;
+            max-height: calc(50% - 90px);
+            overflow-y: auto;
+            z-index: 1000;
         }
     </style>
 </head>
@@ -233,10 +245,25 @@
                         ],
                         routeWhileDragging: true
                     }).addTo(map);
+
+                    // 调整路径详情位置
+                    adjustRoutingContainerPosition();
                 },
                 () => alert("Failed to get current location!"),
                 { enableHighAccuracy: true }
             );
+        }
+
+        // 调整路径详情位置的函数
+        function adjustRoutingContainerPosition() {
+            const routingContainer = document.querySelector('.leaflet-routing-container');
+            if (routingContainer) {
+                const searchContainerHeight = document.querySelector('.search-container').offsetHeight;
+                const bottomControlsHeight = document.querySelector('.bottom-controls').offsetHeight;
+                const maxHeight = window.innerHeight * 0.5 - searchContainerHeight - bottomControlsHeight - 20;
+                routingContainer.style.maxHeight = `${maxHeight}px`;
+                routingContainer.style.bottom = `calc(50% + ${searchContainerHeight + 10}px)`;
+            }
         }
 
         // 跳转到租赁页面方法
@@ -258,6 +285,9 @@
         document.addEventListener("DOMContentLoaded", function () {
             loadStations();
         });
+
+        // 监听窗口大小变化，调整路径详情位置
+        window.addEventListener('resize', adjustRoutingContainerPosition);
 
     </script>
 </body>
