@@ -32,16 +32,18 @@
             display: flex;
             align-items: center;
             z-index: 1000;
+            width: 90%;
+            max-width: 600px;
         }
 
         .search-bar {
-            width: 60vw;
+            display: flex;
+            width: 100%;
             background: white;
             border-radius: 5px;
             padding: 5px;
-            display: flex;
-            align-items: center;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
         }
 
         .search-input {
@@ -49,16 +51,18 @@
             border: none;
             outline: none;
             padding: 8px;
+            min-width: 0;
         }
 
         .search-btn {
+            flex-shrink: 0;
             background: #007bff;
             color: white;
             border: none;
             padding: 10px 12px;
             cursor: pointer;
             border-radius: 5px;
-            flex: 0 0 auto;
+            white-space: nowrap;
         }
 
         /* 个人中心按钮 */
