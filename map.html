@@ -105,16 +105,22 @@
             cursor: pointer;
         }
 
-        /* 调整路径详情位置 */
-        /* .leaflet-routing-container {
+        /* 包一层外容器控制位置 */
+        #routing-container-wrapper {
             position: absolute;
-            bottom: calc(50% + 50px);
-            left: 0;
-            width: 100%;
-            max-height: calc(50% - 90px);
+            top: 80px;
+            left: 5%;
+            width: 90%;
+            max-height: 50%;
             overflow-y: auto;
-            z-index: 2000;
-        } */
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        /* 只针对内部面板做一些细微调整 */
+        .leaflet-routing-container {
+            pointer-events: auto;
+        }
     </style>
 </head>
 
@@ -238,37 +244,45 @@
 
                     // 如果已经存在路径，先清除
                     if (routingControl) {
-                        map.removeControl(routingControl);
+                        routingControl.getPlan().setWaypoints([]);
+                        routingControl.remove();
                     }
 
-                    // 添加新的路径
+                    // 创建外层容器
+                    let routingWrapper = document.getElementById('routing-container-wrapper');
+                    if (!routingWrapper) {
+                        routingWrapper = document.createElement('div');
+                        routingWrapper.id = 'routing-container-wrapper';
+                        document.body.appendChild(routingWrapper);
+                    }
+
                     routingControl = L.Routing.control({
                         waypoints: [
                             L.latLng(latitude, longitude),
                             L.latLng(destLat, destLng)
                         ],
-                        routeWhileDragging: true
+                        routeWhileDragging: true,
+                        show: true,
+                        container: routingWrapper // 指定渲染到这个DIV
                     }).addTo(map);
-
-                    // 调整路径详情位置
-                    adjustRoutingContainerPosition();
                 },
                 () => alert("Failed to get current location!"),
                 { enableHighAccuracy: true }
             );
         }
 
-        // 调整路径详情位置的函数
-        function adjustRoutingContainerPosition() {
-            const routingContainer = document.querySelector('.leaflet-routing-container');
-            if (routingContainer) {
-                const searchContainerHeight = document.querySelector('.search-container').offsetHeight;
-                const bottomControlsHeight = document.querySelector('.bottom-controls').offsetHeight;
-                const maxHeight = window.innerHeight * 0.5 - searchContainerHeight - bottomControlsHeight - 20;
-                routingContainer.style.maxHeight = `${maxHeight}px`;
-                routingContainer.style.bottom = `calc(50% + ${searchContainerHeight + 10}px)`;
-            }
-        }
+
+        // // 调整路径详情位置的函数
+        // function adjustRoutingContainerPosition() {
+        //     const routingContainer = document.querySelector('.leaflet-routing-container');
+        //     if (routingContainer) {
+        //         const searchContainerHeight = document.querySelector('.search-container').offsetHeight;
+        //         const bottomControlsHeight = document.querySelector('.bottom-controls').offsetHeight;
+        //         const maxHeight = window.innerHeight * 0.5 - searchContainerHeight - bottomControlsHeight - 20;
+        //         routingContainer.style.maxHeight = `${maxHeight}px`;
+        //         routingContainer.style.bottom = `calc(50% + ${searchContainerHeight + 10}px)`;
+        //     }
+        // }
 
         // 跳转到租赁页面方法
         function turnToTheSite(siteId) {
@@ -291,7 +305,7 @@
         });
 
         // 监听窗口大小变化，调整路径详情位置
-        window.addEventListener('resize', adjustRoutingContainerPosition);
+        //window.addEventListener('resize', adjustRoutingContainerPosition);
 
     </script>
 </body>
